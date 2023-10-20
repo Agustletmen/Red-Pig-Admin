@@ -1,0 +1,59 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { formRules } from "./utils/rule";
+import { FormProps } from "./utils/types";
+
+const props = withDefaults(defineProps<FormProps>(), {
+  formInline: () => ({
+  #foreach($field in $fields)
+    #if($field.columnName == 'deleteStatus' || $field.columnName == 'createTime' || $field.columnName == 'updateTime')
+    #elseif($field.fieldType == 'int' || $field.fieldType == 'Integer' || $field.fieldType == 'Long')
+        $field.fieldName: 0,
+    #elseif($field.fieldType == 'boolean' || $field.fieldType == 'Boolean')
+        $field.fieldName: false,
+    #else
+        $field.fieldName: "",
+    #end
+  #end
+  })
+});
+
+const ruleFormRef = ref();
+const newFormInline = ref(props.formInline);
+
+function getRef() {
+  return ruleFormRef.value;
+}
+
+defineExpose({ getRef });
+</script>
+
+<template>
+  <el-form
+    ref="ruleFormRef"
+    :model="newFormInline"
+    :rules="formRules"
+    label-width="82px"
+  >
+
+  #foreach($field in $fields)
+    #if($field.columnName == 'id' || $field.columnName == 'deleteStatus' || $field.columnName == 'createTime' || $field.columnName == 'updateTime' || $field.columnName == 'create_by' || $field.columnName == 'update_by')
+    #elseif($field.columnName == 'remark')
+      <el-form-item label="$field.comments" prop="remark">
+        <el-input
+                v-model="newFormInline.$field.columnName"
+                maxlength="80"
+                showWordLimit
+                type="textarea"
+                placeholder="请输入$field.comments"
+        />
+      </el-form-item>
+    #else
+      <el-form-item label="$field.comments" prop="$field.fieldName">
+        <el-input v-model="newFormInline.$field.fieldName" clearable placeholder="请输入$field.comments" />
+      </el-form-item>
+
+    #end
+  #end
+  </el-form>
+</template>

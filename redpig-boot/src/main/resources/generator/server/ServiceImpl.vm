@@ -1,0 +1,19 @@
+package ${classVO.basePackageName}.service.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ${classVO.basePackageName}.mapper.${classVO.className}Mapper;
+import ${classVO.basePackageName}.entity.${classVO.className};
+import ${classVO.basePackageName}.service.I${classVO.className}Service;
+import org.springframework.stereotype.Service;
+
+/**
+ * ${classVO.comment} 实现类
+ *
+ * @author ${classVO.author}
+ *
+ * @date ${classVO.date}
+ */
+@Service
+public class ${classVO.className}ServiceImpl extends ServiceImpl<${classVO.className}Mapper, ${classVO.className}> implements I${classVO.className}Service {
+
+}

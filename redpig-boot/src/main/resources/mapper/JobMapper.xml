@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.redpig.mapper.JobAndTriggerMapper">
+
+    <select id="listPage" resultType="com.redpig.entity.JobAndTrigger">
+		SELECT
+			qrtz_job_details.JOB_NAME as jobName,
+			qrtz_job_details.JOB_GROUP as jobGroup,
+			qrtz_job_details.JOB_CLASS_NAME as jobClassName,
+			qrtz_triggers.TRIGGER_NAME as triggerName,
+			qrtz_triggers.TRIGGER_GROUP as triggerGroup,
+			qrtz_cron_triggers.CRON_EXPRESSION as cronExpression,
+			qrtz_cron_triggers.TIME_ZONE_ID as timeZoneId
+		FROM
+			qrtz_job_details
+		JOIN qrtz_triggers
+		JOIN qrtz_cron_triggers ON qrtz_job_details.JOB_NAME = qrtz_triggers.JOB_NAME
+		AND qrtz_triggers.TRIGGER_NAME = qrtz_cron_triggers.TRIGGER_NAME
+		AND qrtz_triggers.TRIGGER_GROUP = qrtz_cron_triggers.TRIGGER_GROUP
+		${ew.customSqlSegment}
+    </select>
+    
+</mapper>

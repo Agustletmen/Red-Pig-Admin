@@ -1,0 +1,17 @@
+package ${classVO.basePackageName}.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import ${classVO.basePackageName}.entity.${classVO.className};
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ *  ${classVO.comment} Mapper 接口
+ *
+ * @author ${classVO.author}
+ *
+ * @date ${classVO.date}
+ */
+@Mapper
+public interface ${classVO.className}Mapper extends BaseMapper<${classVO.className}> {
+
+}

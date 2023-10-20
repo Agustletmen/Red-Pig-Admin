@@ -1,0 +1,62 @@
+server:
+  port: 9999
+spring:
+  activiti:
+    database-schema-update: true
+    history-level: full
+    check-process-definitions: false
+  jackson:
+    default-property-inclusion: non_null
+  quartz:
+    properties:
+      org:
+        quartz:
+          scheduler:
+            # 默认
+            instanceName: RedpigScheduler
+            # 如果使用集群，instanceId必须唯一，设置成AUTO
+            instanceId: AUTO
+          jobStore:
+            # 存储方式使用JobStoreTX 也就是数据库
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            # 表名前缀
+            tablePrefix: QRTZ_
+            useProperties: false
+            misfireThreshold: 5000
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 20
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+    job-store-type: jdbc
+    jdbc:
+      # 启动项目时是否初始化表
+      initialize-schema: never
+    scheduler-name: scheduler
+  profiles:
+    active: dev
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.redpig.controller
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleteStatus
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+knife4j:
+  enable: true #启用knife文档

@@ -1,0 +1,31 @@
+INSERT INTO `redpig_sys_perm` (`deleteStatus`,`name`, `tag`, `create_by`, `update_by`, `remark`, `menu_id`) VALUES ('1', '${classVO.comment}分页查询', '${classVO.entityName}:page', '张三', '李四', '${classVO.comment}', '1');
+INSERT INTO `redpig_sys_perm` (`deleteStatus`,`name`, `tag`, `create_by`, `update_by`, `remark`, `menu_id`) VALUES ('1', '保存或更新${classVO.comment}', '${classVO.entityName}:saveOrUpdate', '张三', '李四', '${classVO.comment}', '1');
+INSERT INTO `redpig_sys_perm` (`deleteStatus`,`name`, `tag`, `create_by`, `update_by`, `remark`, `menu_id`) VALUES ('1', '根据ID删除${classVO.comment}', '${classVO.entityName}:delById', '张三', '李四', '${classVO.comment}', '1');
+INSERT INTO `redpig_sys_perm` (`deleteStatus`,`name`, `tag`, `create_by`, `update_by`, `remark`, `menu_id`) VALUES ('1', '根据ID查询${classVO.comment}', '${classVO.entityName}:getById', '张三', '李四', '${classVO.comment}', '1');
+INSERT INTO `redpig_sys_perm` (`deleteStatus`,`name`, `tag`, `create_by`, `update_by`, `remark`, `menu_id`) VALUES ('1', '批量删除${classVO.comment}', '${classVO.entityName}:removeBatchByIds', '张三', '李四', '${classVO.comment}', '1');
+
+INSERT INTO `redpig_sys_menu`
+(`deleteStatus`, `createTime`, `updateTime`, `name`, `path`, `component`, `title`, `type`,
+`icon`, `showLink`, `rank`, `parent_id`) VALUES
+('1', '2023-07-12 15:43:25', '2023-07-12 15:43:25', '${classVO.className}Manage', '/${classVO.entityName}', NULL, '${classVO.comment}管理', '0', 'fluent-mdl2:knowledge-article', b'1', '1', '0');
+
+INSERT INTO `redpig_sys_menu`
+(`deleteStatus`, `createTime`, `updateTime`, `name`, `path`, `component`, `title`, `type`, `icon`, `showLink`, `rank`, `parent_id`) VALUES
+('1', '2023-07-12 15:44:22', '2023-07-12 15:44:22', '${classVO.className}List', '/system/${classVO.entityName}/list', NULL, '${classVO.comment}列表', '1', 'fluent-mdl2:knowledge-article', b'1', '1', '69');
+
+INSERT INTO `redpig_sys_menu`
+(`deleteStatus`, `createTime`, `updateTime`, `name`, `path`, `component`, `title`, `type`, `icon`, `showLink`, `rank`, `parent_id`) VALUES
+('1', '2023-07-12 15:45:56', '2023-07-12 15:45:56', '${classVO.className}_page', '/${classVO.entityName}/page', NULL, '${classVO.comment}分页查询', '2', 'fluent-mdl2:knowledge-article', b'0', '1', '70');
+
+INSERT INTO `redpig_sys_menu`
+(`deleteStatus`, `createTime`, `updateTime`, `name`, `path`, `component`, `title`, `type`, `icon`, `showLink`, `rank`, `parent_id`) VALUES
+('1', '2023-07-12 15:46:45', '2023-07-12 15:46:45', '${classVO.className}_saveOrUpdate', '/${classVO.entityName}/saveOrUpdate', NULL, '新增或者更新${classVO.comment}', '2', 'fluent-mdl2:knowledge-article', b'0', '1', '70');
+INSERT INTO `redpig_sys_menu`
+(`deleteStatus`, `createTime`, `updateTime`, `name`, `path`, `component`, `title`, `type`, `icon`, `showLink`, `rank`, `parent_id`) VALUES
+('1', '2023-07-12 15:47:28', '2023-07-12 15:47:28', '${classVO.className}_delById', '/${classVO.entityName}/delById', NULL, '根据ID删除${classVO.comment}', '2', 'fluent-mdl2:knowledge-article', b'0', '1', '70');
+INSERT INTO `redpig_sys_menu`
+(`deleteStatus`, `createTime`, `updateTime`, `name`, `path`, `component`, `title`, `type`, `icon`, `showLink`, `rank`, `parent_id`) VALUES
+('1', '2023-07-12 15:48:01', '2023-07-12 15:48:01', '${classVO.className}_getById', '/${classVO.entityName}/getById', NULL, '根据ID查询${classVO.comment}', '2', 'fluent-mdl2:knowledge-article', b'0', '1', '70');
+INSERT INTO `redpig_sys_menu`
+(`deleteStatus`, `createTime`, `updateTime`, `name`, `path`, `component`, `title`, `type`, `icon`, `showLink`, `rank`, `parent_id`) VALUES
+('1', '2023-07-12 15:52:03', '2023-07-12 15:52:03', '${classVO.className}_removeBatchByIds', '/${classVO.entityName}/removeBatchByIds', NULL, '批量删除${classVO.comment}', '2', 'fluent-mdl2:knowledge-article', b'0', '1', '70');

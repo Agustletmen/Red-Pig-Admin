@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redpig.mapper.FlowLeaveMapper">
+    <resultMap id="BaseResultMap" type="com.redpig.entity.FlowLeave">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus" />
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="user_id" jdbcType="BIGINT" property="userId" />
+        <result column="leave_reason" jdbcType="VARCHAR" property="leaveReason" />
+        <result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
+        <result column="endTime" jdbcType="TIMESTAMP" property="endTime" />
+        <result column="processInstance_id" jdbcType="VARCHAR" property="processInstanceId" />
+        <result column="processDefinition_id" jdbcType="VARCHAR" property="processDefinitionId" />
+        <result column="agree" jdbcType="BIT" property="agree" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+        <association property="user" javaType="com.redpig.entity.User" >
+            <id column="uid" jdbcType="BIGINT" property="id" />
+            <result column="uusername" jdbcType="VARCHAR" property="username" />
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,deleteStatus,createTime,updateTime,user_id,leave_reason,startTime,endTime,processInstance_id,agree,processDefinition_id,create_by,update_by
+    </sql>
+
+    <select id="listPage" resultMap="BaseResultMap">
+        select l.*,u.id as uid,u.username as uusername
+        from redpig_flow_leave l left join redpig_sys_user u on l.user_id = u.id
+        ${ew.customSqlSegment}
+    </select>
+
+</mapper>

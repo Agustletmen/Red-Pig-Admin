@@ -1,0 +1,14 @@
+interface FormItemProps {
+#foreach($field in $fields)
+  #if($field.columnName == 'deleteStatus' || $field.columnName == 'createTime' || $field.columnName == 'updateTime') #else
+  //$field.comments
+    $field.fieldName: $field.jsType;
+  #end
+#end
+}
+
+interface FormProps {
+  formInline: FormItemProps;
+}
+
+export type { FormItemProps, FormProps };

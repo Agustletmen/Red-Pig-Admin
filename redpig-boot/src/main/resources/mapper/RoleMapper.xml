@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redpig.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.redpig.entity.Role">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus" />
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="tag" jdbcType="VARCHAR" property="tag" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,deleteStatus,createTime,updateTime,`name`,tag,create_by,update_by,remark
+    </sql>
+
+    <select id="getSelectedRolesByMenuId"  resultMap="BaseResultMap">
+        SELECT r.*
+        FROM
+            redpig_sys_role r
+        LEFT JOIN redpig_sys_menu_role mr ON mr.role_id = r.id
+        WHERE mr.menu_id = #{menuId,jdbcType=BIGINT}
+    </select>
+
+    <select id="getRolesByUserId"  resultMap="BaseResultMap">
+        SELECT r.*
+        FROM redpig_sys_role r
+        LEFT JOIN redpig_sys_user_role ur ON ur.role_id = r.id
+        WHERE ur.user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="getSelectedRolesByUserId"  resultMap="BaseResultMap">
+        SELECT r.*
+        FROM redpig_sys_role r
+        LEFT JOIN redpig_sys_user_role ur ON ur.role_id = r.id
+        WHERE ur.user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

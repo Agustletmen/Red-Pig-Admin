@@ -1,0 +1,62 @@
+package ${classVO.basePackageName}.entity;
+
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+/**
+ * ${classVO.comment} 实体类
+ *
+ * @author ${classVO.author}
+ *
+ * @date ${classVO.date}
+ */
+@Data
+@TableName(value = "${classVO.tableName}")
+@Schema(description = "${classVO.comment}")
+public class ${classVO.className}{
+
+    #foreach($field in $fields)
+    /** $field.comments **/
+    @Schema(description = "$field.comments")
+    #if($field.columnName == 'id')
+    @TableId(value = "$field.fieldName",type = IdType.AUTO)
+    private $field.fieldType $field.fieldName;
+    #end
+    #if($field.fieldName == 'deleteStatus')
+    @TableField(value = "${field.columnName}")
+    private int $field.fieldName;
+    #end
+    #if($field.fieldName =='createTime')
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @TableField(value = "createTime",fill = FieldFill.INSERT)
+    private java.util.Date createTime;
+    #end
+    #if($field.fieldName =='updateTime')
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @TableField(value = "updateTime",fill = FieldFill.INSERT_UPDATE)
+    private java.util.Date updateTime;
+    #end
+    #if($field.fieldType =='java.util.Date' && $field.columnName !='createTime' && $field.columnName !='updateTime')
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @TableField(value = "${field.columnName}")
+    private $field.fieldType $field.fieldName;
+    #elseif($field.fieldType !='java.util.Date' && $field.columnName !='id' && $field.columnName !='deleteStatus' && $field.columnName !='createTime' && $field.columnName !='updateTime' && $field.fieldName !='createBy' && $field.fieldName !='updateBy')
+    @TableField(value = "${field.columnName}")
+    private $field.fieldType $field.fieldName;
+    #end
+    #if($field.fieldName =='createBy')
+    @TableField(value = "create_by",fill = FieldFill.INSERT)
+    private String createBy;
+    #elseif($field.fieldName =='updateBy')
+    @TableField(value = "update_by",fill = FieldFill.INSERT_UPDATE)
+    private String updateBy;
+    #end
+
+    #end
+}

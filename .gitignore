@@ -1,0 +1,24 @@
+redpig-vue3/node_modules
+redpig-vue3/.DS_Store
+redpig-vue3/dist
+redpig-vue3/dist-ssr
+redpig-vue3/*.local
+redpig-vue3/.eslintcache
+redpig-vue3/report.html
+
+redpig-vue3/yarn.lock
+redpig-vue3/npm-debug.log*
+redpig-vue3/.pnpm-error.log*
+redpig-vue3/.pnpm-debug.log
+redpig-vue3/tests/**/coverage/
+
+# Editor directories and files
+redpig-vue3/.idea
+redpig-vue3/*.suo
+redpig-vue3/*.ntvs*
+redpig-vue3/*.njsproj
+redpig-vue3/*.sln
+tsconfig.tsbuildinfo
+.idea
+
+/redpig-boot/target

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redpig.mapper.PermMapper">
+    <resultMap id="BaseResultMap" type="com.redpig.entity.Perm">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus" />
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="tag" jdbcType="VARCHAR" property="tag" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="menu_id" jdbcType="BIGINT" property="menuId" />
+
+        <association property="menu" javaType="com.redpig.entity.Menu">
+            <result column="mname" jdbcType="VARCHAR" property="name" />
+            <result column="mtitle" jdbcType="VARCHAR" property="title" />
+        </association>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,deleteStatus,createTime,updateTime,`name`,tag,create_by,update_by,remark,menu_id
+    </sql>
+
+    <select id="getSelectedPermsByMenuId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+            p.*
+        from redpig_sys_perm p
+        left join redpig_sys_menu_perm mp on mp.perm_id = p.id
+        where mp.menu_id = #{menuId,jdbcType=BIGINT}
+    </select>
+
+    <select id="getPermsByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select p.* from redpig_sys_perm p
+        left join redpig_sys_user_perm up on up.perm_id = p.id
+        where up.user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="getSelectedPermsByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select p.*
+        from redpig_sys_perm p
+        left join redpig_sys_user_perm up on up.perm_id = p.id
+        where up.user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="listPage" resultMap="BaseResultMap">
+        select p.*,m.name as mname,m.title as mtitle
+        from redpig_sys_perm p
+        left join redpig_sys_menu m on p.menu_id = m.id
+        ${ew.customSqlSegment}
+    </select>
+
+</mapper>

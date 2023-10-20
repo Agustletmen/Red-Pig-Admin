@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redpig.mapper.TableInfoMapper">
+    <resultMap id="BaseResultMap" type="com.redpig.entity.TableInfo">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus" />
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="tableName" jdbcType="VARCHAR" property="tableName" />
+        <result column="tableComment" jdbcType="VARCHAR" property="tableComment" />
+        <result column="className" jdbcType="VARCHAR" property="className" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+
+        <collection
+                property="tableProperties"
+                column="id"
+                ofType="com.redpig.entity.TableProperty"
+                select="com.redpig.mapper.TablePropertyMapper.getTablePropertyByTableInfoId"/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,deleteStatus,createTime,updateTime,tableName,tableComment,className,create_by,update_by,remark
+    </sql>
+
+    <select id="selectTableInfoWithTableProperties" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from redpig_sys_tableinfo
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="createTable">
+        CREATE TABLE ${tableName}
+        <foreach item="item" index="index" collection="tableProperties" open="(" separator="," close=")">
+            `${item.columnName}` ${item.columnType}<if test="item.columnLength != null and item.columnLength != 0">(${item.columnLength})</if>
+            <if test="item.primarykey == true">
+                AUTO_INCREMENT PRIMARY KEY
+            </if>
+            COMMENT '${item.columnComment}'
+        </foreach>
+        COMMENT='${tableComment}'
+
+    </insert>
+
+    <select id="existTable" resultType="java.lang.Boolean">
+        SELECT count(1) FROM information_schema.TABLES
+        where TABLE_SCHEMA = #{databaseName} and TABLE_NAME=#{tableName}
+    </select>
+
+    <select id="selectAllTableNames" resultType="java.lang.String">
+        SELECT
+            table_name
+        FROM
+            information_schema. TABLES
+        WHERE
+            TABLE_SCHEMA = #{databaseName}
+    </select>
+
+</mapper>

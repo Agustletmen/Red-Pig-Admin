@@ -1,0 +1,76 @@
+package ${classVO.basePackageName}.controller;
+
+import cn.hutool.core.util.ObjUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${classVO.basePackageName}.entity.${classVO.className};
+import ${classVO.basePackageName}.service.I${classVO.className}Service;
+import ${classVO.basePackageName}.util.Result;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
+
+@Tag(name = "${classVO.comment}")
+@RestController
+public class ${classVO.className}Controller {
+
+    @Autowired
+    I${classVO.className}Service ${classVO.entityName}Service;
+
+    @Parameters({
+        @Parameter(name = "currentPage",description = "页码",required = true,in = ParameterIn.QUERY),
+        @Parameter(name = "pageSize",description = "每页条数",required = true,in = ParameterIn.QUERY),
+        @Parameter(name = "startTime",description = "开始时间：格式yyyy-mm-dd",required = false,in = ParameterIn.QUERY),
+        @Parameter(name = "endTime",description = "结束时间：格式yyyy-mm-dd",required = false,in = ParameterIn.QUERY),
+    })
+    @Operation(summary = "${classVO.comment}分页查询")
+    @GetMapping("/${classVO.entityName}/page")
+    public Result page(
+            @RequestParam(name = "currentPage",defaultValue = "1") Long currentPage,
+            @RequestParam(name = "pageSize",defaultValue = "10") Long pageSize,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date startTime,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date endTime){
+
+        QueryWrapper<${classVO.className}> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("updateTime");
+
+        if(ObjUtil.isNotEmpty(startTime) && ObjUtil.isNotEmpty(endTime)){
+            wrapper.ge("updateTime",startTime);
+            wrapper.le("updateTime",endTime);
+        }
+
+        return Result.success(${classVO.entityName}Service.page(new Page<>(currentPage, pageSize), wrapper));
+    }
+
+    @Operation(summary = "增${classVO.comment}",description = "新增或者更新${classVO.comment}")
+    @PostMapping("/${classVO.entityName}/saveOrUpdate")
+    public Result saveOrUpdate(@RequestBody ${classVO.className} ${classVO.entityName}){
+        return Result.success(${classVO.entityName}Service.saveOrUpdate(${classVO.entityName}));
+    }
+
+    @Operation(summary = "删除${classVO.comment}",description = "根据ID删除${classVO.comment}")
+    @PostMapping("/${classVO.entityName}/delById")
+    public Result delById(@RequestBody ${classVO.className} ${classVO.entityName}){
+        return Result.success(${classVO.entityName}Service.removeById(${classVO.entityName}.getId()));
+    }
+
+    @Operation(summary = "查询${classVO.comment}",description = "根据ID查询${classVO.comment}")
+    @GetMapping("/${classVO.entityName}/getById")
+    public Result getById(Long id){
+        return Result.success(${classVO.entityName}Service.getById(id));
+    }
+
+    @Operation(summary = "批量删除${classVO.comment}",description = "根据ID批量删除${classVO.comment}")
+    @PostMapping("/${classVO.entityName}/removeBatchByIds")
+    public Result removeBatchByIds(@RequestBody List<Long> ids) {
+        return Result.success(${classVO.entityName}Service.removeBatchByIds(ids));
+    }
+}

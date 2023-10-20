@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redpig.mapper.TablePropertyMapper">
+    <resultMap id="BaseResultMap" type="com.redpig.entity.TableProperty">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="columnName" jdbcType="VARCHAR" property="columnName" />
+        <result column="columnType" jdbcType="VARCHAR" property="columnType" />
+        <result column="columnLength" jdbcType="INTEGER" property="columnLength" />
+        <result column="columnComment" jdbcType="VARCHAR" property="columnComment" />
+        <result column="not_null" jdbcType="BIT" property="notNull" />
+        <result column="primarykey" jdbcType="BIT" property="primarykey" />
+        <result column="fieldName" jdbcType="VARCHAR" property="fieldName" />
+        <result column="fieldType" jdbcType="VARCHAR" property="fieldType" />
+        <result column="select_is" jdbcType="BIT" property="selectIs" />
+        <result column="select_type" jdbcType="VARCHAR" property="selectType" />
+        <result column="form_is" jdbcType="BIT" property="formIs" />
+        <result column="input_must" jdbcType="BIT" property="inputMust" />
+        <result column="form_type" jdbcType="VARCHAR" property="formType" />
+        <result column="seq" jdbcType="INTEGER" property="seq" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="tableInfo_id" jdbcType="BIGINT" property="tableInfoId" />
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,createTime,updateTime,
+        columnName,columnLength,columnType,columnComment,not_null,primarykey,
+        fieldName,fieldType,select_is,select_type,
+        form_is,input_must,form_type,
+        seq,tableInfo_id,
+        create_by,update_by,remark
+    </sql>
+
+    <select id="getTablePropertyByTableInfoId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from redpig_sys_table_property
+        where tableInfo_id = #{tableInfoId,jdbcType=BIGINT}
+    </select>
+
+    <resultMap id="ColumnResultMap" type="com.redpig.entity.TableProperty">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="COLUMN_NAME" jdbcType="VARCHAR" property="columnName" />
+        <result column="DATA_TYPE" jdbcType="VARCHAR" property="columnType" />
+        <result column="CHARACTER_MAXIMUM_LENGTH" jdbcType="INTEGER" property="columnLength" />
+        <result column="COLUMN_COMMENT" jdbcType="VARCHAR" property="columnComment" />
+        <result column="IS_NULLABLE" jdbcType="BIT" property="notNull" />
+        <result column="COLUMN_KEY" jdbcType="BIT" property="primarykey" />
+        <result column="fieldName" jdbcType="VARCHAR" property="fieldName" />
+        <result column="fieldType" jdbcType="VARCHAR" property="fieldType" />
+        <result column="select_is" jdbcType="BIT" property="selectIs" />
+        <result column="select_type" jdbcType="VARCHAR" property="selectType" />
+        <result column="form_is" jdbcType="BIT" property="formIs" />
+        <result column="input_must" jdbcType="BIT" property="inputMust" />
+        <result column="form_type" jdbcType="VARCHAR" property="formType" />
+        <result column="seq" jdbcType="INTEGER" property="seq" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="tableInfo_id" jdbcType="BIGINT" property="tableInfoId" />
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+
+    <select id="getTablePropertiesFromInformationSchema" resultMap="ColumnResultMap">
+        SELECT
+            COLUMN_NAME,
+            upper(DATA_TYPE) as DATA_TYPE,
+            case when CHARACTER_MAXIMUM_LENGTH > 10000 then 10000 when CHARACTER_MAXIMUM_LENGTH <![CDATA[ < ]]> 10000 then CHARACTER_MAXIMUM_LENGTH end as CHARACTER_MAXIMUM_LENGTH,
+            case when IS_NULLABLE='YES' then 0 else 1 end as IS_NULLABLE,
+            case when IS_NULLABLE='YES' then 0 else 1 end as input_must,
+            COLUMN_COMMENT,
+            case when COLUMN_KEY='PRI' then 1 else 0 end as COLUMN_KEY
+        FROM
+            information_schema.`COLUMNS`
+        WHERE TABLE_SCHEMA = #{databaseName} and TABLE_NAME=#{tableName}
+        ORDER BY ORDINAL_POSITION ASC
+    </select>
+    
+</mapper>

@@ -1,0 +1,15 @@
+package ${classVO.basePackageName}.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import ${classVO.basePackageName}.entity.${classVO.className};
+
+/**
+ * ${classVO.comment} 服务类
+ *
+ * @author ${classVO.author}
+ *
+ * @date ${classVO.date}
+ */
+public interface I${classVO.className}Service extends IService<${classVO.className}> {
+
+}
